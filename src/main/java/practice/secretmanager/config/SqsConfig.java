@@ -26,7 +26,10 @@ public class SqsConfig {
 	@Primary
 	@Bean
 	public AmazonSQSAsync amazonSQSAws() {
-		if("local".equals(System.getProperty("spring.profiles.active"))) {
+		final String profile = System.getProperty("spring.profiles.active");
+		log.info("profile : {}", profile);
+
+		if("local".equals(profile)) {
 			final String accessKey = System.getProperty("aws.accessKeyId");
 			final String secretKey = System.getProperty("aws.secretKey");
 
