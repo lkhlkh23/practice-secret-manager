@@ -1,0 +1,35 @@
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    sqs:
+      queue:
+        name: practice
+        url: https://sqs.ap-northeast-2.amazonaws.com/624849568220/practice
+
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    type : com.zaxxer.hikari.HikariDataSource
+    url: ENC(4CIfOizxicwmRRmoCP3LYgW3D7YBpCrSh97m475iI7iCrLv0vetQDPtBaLgo5BWdv1GYowOB/qOsHzLiSWwRVVDjkudzwV4K4Vexin8DlRc6D/6Vifbf6btvSgONtS8yVCvcSrCWwB+lmGOvzZfqwSXuNJOU5k5YfDizQySzcYZwujaGRg20DOaVR7DoQw/KAFlUMVhWu/fYr4gkM4SAIffvH+o4vwIa)
+    driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerMySQLDriver
+    username: ENC(xUnnmvH0sxzt57EgLfrVViS7HhLBQcbCW70i5gQT/bY=)
+    hikari:
+      pool-name: PlanAuroraDB
+      maximum-pool-size: 40
+      validation-timeout: 1000
+      connection-timeout: 1000
+      connection-test-query: select 1 from dual
+      data-source-properties:
+        socketTimeout: 8000
+
+jasypt:
+  encryptor:
+    bean: standardPBEStringEncryptor
+
+logging:
+  level:
+    software.amazon.awssdk: DEBUG
