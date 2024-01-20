@@ -14,7 +14,12 @@ public class Scheduler {
 
 	@Scheduled(fixedDelay = 5000)
 	public void runEveryFiveSeconds() {
-		sender.send();
+		sender.sendWhenErrorOccurred();
+	}
+
+	@Scheduled(fixedDelay = 600000)
+	public void runEveryTenMinutes() {
+		sender.sendAlways();
 	}
 
 }

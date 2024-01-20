@@ -20,9 +20,18 @@ public class SqsSender {
 	private final AmazonSQS sqs;
 	private final SurveyEntityRepository repository;
 
-	public void send() {
+	public void sendWhenErrorOccurred() {
 		try {
 			final int count = repository.findAll().size();
+		} catch (Exception e) {
+			sqs.sendMessage(url, String.format("message : %s, time : %s", e.getMessage(), LocalDateTime.now()));
+		}
+	}
+
+	public void sendAlways() {
+		try {
+			final int count = repository.findAll().size();
+			sqs.sendMessage(url, String.format("count : %d, time : %s", count, LocalDateTime.now()));
 		} catch (Exception e) {
 			sqs.sendMessage(url, String.format("message : %s, time : %s", e.getMessage(), LocalDateTime.now()));
 		}
