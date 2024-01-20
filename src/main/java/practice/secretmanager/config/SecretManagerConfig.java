@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 
@@ -23,21 +25,22 @@ public class SecretManagerConfig {
 	@Value("${cloud.aws.region.static}")
 	private String region;
 
-	@Bean("awsStaticCredentials")
-	public AWSStaticCredentialsProvider awsStaticCredentials() {
-		final String accessKey = System.getProperty("aws.accessKeyId");
-		final String secretKey = System.getProperty("aws.secretKey");
-		log.info("access : {}, secret : {}", accessKey, secretKey);
-
-		return new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
-	}
-
 	@Bean("awsSecretsManager")
 	@Primary
-	public AWSSecretsManager awsSecretsManager(@Autowired final AWSStaticCredentialsProvider awsStaticCredentials) {
+	public AWSSecretsManager awsSecretsManager() {
+		if("local".equals(System.getProperty("spring.profiles.active"))) {
+			final String accessKey = System.getProperty("aws.accessKeyId");
+			final String secretKey = System.getProperty("aws.secretKey");
+
+			return AWSSecretsManagerClientBuilder.standard()
+												 .withRegion(region)
+												 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
+												 .build();
+		}
+
 		return AWSSecretsManagerClientBuilder.standard()
 											 .withRegion(region)
-											 .withCredentials(awsStaticCredentials)
+											 .withCredentials(new SystemPropertiesCredentialsProvider())
 											 .build();
 	}
 
