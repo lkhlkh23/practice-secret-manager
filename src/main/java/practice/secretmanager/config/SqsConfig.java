@@ -36,9 +36,13 @@ public class SqsConfig {
 											  .build();
 		}
 
+		final SystemPropertiesCredentialsProvider provider = new SystemPropertiesCredentialsProvider();
+		log.info("access : {}", provider.getCredentials().getAWSAccessKeyId());
+		log.info("secret : {}", provider.getCredentials().getAWSSecretKey());
+
 		return AmazonSQSAsyncClientBuilder.standard()
 									  .withRegion(region)
-									  .withCredentials(new SystemPropertiesCredentialsProvider())
+									  .withCredentials(provider)
 									  .build();
 	}
 

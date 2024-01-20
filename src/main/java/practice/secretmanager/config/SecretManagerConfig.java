@@ -38,9 +38,13 @@ public class SecretManagerConfig {
 												 .build();
 		}
 
+		final SystemPropertiesCredentialsProvider provider = new SystemPropertiesCredentialsProvider();
+		log.info("access : {}", provider.getCredentials().getAWSAccessKeyId());
+		log.info("secret : {}", provider.getCredentials().getAWSSecretKey());
+
 		return AWSSecretsManagerClientBuilder.standard()
 											 .withRegion(region)
-											 .withCredentials(new SystemPropertiesCredentialsProvider())
+											 .withCredentials(provider)
 											 .build();
 	}
 
