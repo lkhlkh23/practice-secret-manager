@@ -14,7 +14,10 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
+@Slf4j
 public class SecretManagerConfig {
 
 	@Value("${cloud.aws.region.static}")
@@ -22,7 +25,11 @@ public class SecretManagerConfig {
 
 	@Bean("awsStaticCredentials")
 	public AWSStaticCredentialsProvider awsStaticCredentials() {
-		return new AWSStaticCredentialsProvider(new BasicAWSCredentials(System.getProperty("aws.accessKeyId"), System.getProperty("aws.secretKey")));
+		final String accessKey = System.getProperty("aws.accessKeyId");
+		final String secretKey = System.getProperty("aws.secretKey");
+		log.info("access : {}, secret : {}", accessKey, secretKey);
+
+		return new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
 	}
 
 	@Bean("awsSecretsManager")
