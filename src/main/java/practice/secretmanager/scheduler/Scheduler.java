@@ -12,8 +12,8 @@ public class Scheduler {
 	@Autowired
 	private SqsSender sender;
 
-	@Scheduled(fixedDelay = 5000)
-	public void runEveryFiveSeconds() {
+	@Scheduled(fixedDelay = 1000)
+	public void runEverySeconds() {
 		sender.sendWhenErrorOccurred();
 	}
 
