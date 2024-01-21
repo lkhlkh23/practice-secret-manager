@@ -11,7 +11,7 @@ cloud:
 
 spring:
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
   datasource:
     type : com.zaxxer.hikari.HikariDataSource
     url: ENC(4CIfOizxicwmRRmoCP3LYgW3D7YBpCrSh97m475iI7iCrLv0vetQDPtBaLgo5BWdv1GYowOB/qOsHzLiSWwRVVDjkudzwV4K4Vexin8DlRc6D/6Vifbf6btvSgONtS8yVCvcSrCWwB+lmGOvzZfqwSXuNJOU5k5YfDizQySzcYZwujaGRg20DOaVR7DoQw/KAFlUMVhWu/fYr4gkM4SAIffvH+o4vwIa)
